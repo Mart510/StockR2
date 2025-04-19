@@ -1,0 +1,5 @@
+id,ticker,ticker_name,logo_url,description,api_source,last_called_at
+0444f79c-3a5b-40ba-a410-6fd38bc62c57,XRPUSDC,Ripple,,Ripple labs,Binance,
+328482e9-ba56-4546-a61d-0ab695d4f95a,LTCUSDC,Litecoin,https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/6_Full_Logo_S-2.png/1280px-6_Full_Logo_S-2.png,Bitcoins lighweight cousin,Binance,
+9d4b69ae-a160-4d40-ad61-640ab8186b6f,BTCUSDC,Bitcoin,https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1280px-Bitcoin.svg.png,The OG crypto currency,Binance,
+dbc4e403-74f5-4030-9f3b-94584e934b03,ETHUSDC,Ethereum,https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Ethereum_logo_2014.svg/384px-Ethereum_logo_2014.svg.png,The other OG,Binance,

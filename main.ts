@@ -1,19 +1,43 @@
-debugger;
 import {config} from "https://deno.land/x/dotenv/mod.ts";
 import {Hono} from "npm:hono";
 import "jsr:@std/dotenv/load";
 import { BinanceApi } from "./binanceAPI/binanceApi.ts";
+import { SupabaseApi } from "./supabaseAPI/databaseMethods.ts";
 import { RateLimiter } from "./utils/RateLimiter.ts";
+import { setUpClients } from "./clients.ts";
 
-// load environment variables
+// TODO refactor this file to only do the following:
+// 1. load environment variables
+// 2. initialize api clients
+// 3. register the routes
+// 4. start the server
+
+// src/
+// │
+// ├── main.ts
+// ├── config.ts               <- Loads env vars
+// ├── clients.ts              <- setUpClients function
+// │
+// ├── routes/
+// │   ├── binance.ts
+// │   ├── supabase.ts
+// │   └── index.ts            <- Optionally aggregates all routes
+// │
+// ├── binanceAPI/
+// │   └── binanceApi.ts
+// │
+// ├── supabaseAPI/
+// │   └── databaseMethods.ts
+// │
+// └── utils/
+//     └── RateLimiter.ts
+
+
+
+// load env
 config({ export: true });
 
-const binanceBaseURL = Deno.env.get("BINANCE_BASE_URL");
-
-if (!binanceBaseURL) {
-  throw new Error("BINANCE_BASE_URL is not set in the environment variables");
-}
-
+const {binanceAPI, supabaseApi} = setUpClients();
 
 // Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
 if (import.meta.main) {
@@ -30,16 +54,13 @@ const app = new Hono();
 Deno.serve(app.fetch);
 
 
-
-
 // demo route
 app.get("/", (c) => {
   return c.text("Hello World!");
 });
 
 
-// binance API routes
-const binanceAPI = new BinanceApi(binanceBaseURL)
+
 
 app.get("/binance/ping", async (c) => {
   const response = await binanceAPI.getPing();
@@ -66,19 +87,39 @@ app.get("/binance/ping-tester", async () => {
 });
 
 app.get("/binance/ticker-average-price", async (c) => {
-  const ticker = c.req.query("ticker");
+  const tickerParam = c.req.query("ticker");
   const pairTicker = c.req.query("pairTicker") || "USDC";
-  if (!ticker) {
+  if (!tickerParam) {
     return c.json({ error: "Ticker is required" }, 400);
   }
-  const response = await binanceAPI.getTickerAvgprice(ticker, pairTicker);
+  const response = await binanceAPI.getTickerAvgprice(tickerParam, pairTicker);
   console.log(response);
   return c.json(response);
 });
 
 
 // supabase API routes
+app.get("/data/ticker-list", async (c) => {
+  const response = await supabaseApi.getAllTickers();
+  console.log(response);
+  return c.json(response);
+});
 
+app.get("/data/ticker-id", async (c) => {
+  const tickerParam = c.req.query("ticker");
+  if (!tickerParam) {
+    return c.json({ error: "Ticker is required" }, 400);
+  }
+  const response = await supabaseApi.getTickerUUID(tickerParam);
+  console.log(response);
+  return c.json(response);
+});
+
+
+// test insert for daily summary
+app.get("/data/insert-daily-summary", async (c) => {
+  // const getAllTickers = await getAllTickers();
+});
 
 export function add(a: number, b: number): number {
   return a + b;
