@@ -19,25 +19,29 @@ jobs:
       - name: Check Deno version
         run: deno -v
 
-    # Step 3: Use GitHub Secrets (stored in the repository settings)
+      # Step 3: Use GitHub Secrets (stored in the repository settings)
       - name: Set environment variables from GitHub Secrets
         run: |
           # Server
-          echo "SERVER_AUTH_USERNAME=${{ secrets.SERVER_AUTH_USERNAME }}" >> .env
-          echo "SERVER_AUTH_PASSWORD=${{ secrets.SERVER_AUTH_PASSWORD }}" >> .env
+          echo "SERVER_AUTH_USERNAME=${{ secrets.SERVER_AUTH_USERNAME }}" | tee -a .env
+          echo "SERVER_AUTH_PASSWORD=${{ secrets.SERVER_AUTH_PASSWORD }}" | tee -a .env
 
           # Client
-          echo "CLIENT_AUTH_USERNAME=${{ secrets.CLIENT_AUTH_USERNAME }}" >> .env
-          echo "CLIENT_AUTH_PASSWORD=${{ secrets.CLIENT_AUTH_PASSWORD }}" >> .env
+          echo "CLIENT_AUTH_USERNAME=${{ secrets.CLIENT_AUTH_USERNAME }}" | tee -a .env
+          echo "CLIENT_AUTH_PASSWORD=${{ secrets.CLIENT_AUTH_PASSWORD }}" | tee -a .env
 
           # Binance
-          echo "BINANCE_BASE_URL=${{ secrets.BINANCE_BASE_URL }}" >> .env
-          echo "BINANCE_API_KEY=${{ secrets.BINANCE_API_KEY }}" >> .env
+          echo "BINANCE_BASE_URL=${{ secrets.BINANCE_BASE_URL }}" | tee -a .env
+          echo "BINANCE_API_KEY=${{ secrets.BINANCE_API_KEY }}" | tee -a .env
 
           # Supabase
-          echo "SUPABASE_CONNECTION_URL=${{ secrets.SUPABASE_CONNECTION_URL }}" >> .env
-          echo "SUPABASE_REST_URL=${{ secrets.SUPABASE_REST_URL }}" >> .env
-          echo "SUPABASE_API_KEY=${{ secrets.SUPABASE_API_KEY }}" >> .env
+          echo "SUPABASE_CONNECTION_URL=${{ secrets.SUPABASE_CONNECTION_URL }}" | tee -a .env
+          echo "SUPABASE_REST_URL=${{ secrets.SUPABASE_REST_URL }}" | tee -a .env
+          echo "SUPABASE_API_KEY=${{ secrets.SUPABASE_API_KEY }}" | tee -a .env
+
+      # Debugging: Check contents of .env file
+      - name: Check contents of .env
+        run: cat .env
 
       # Step 4: Run your Deno application
       - name: Run Deno main.ts
