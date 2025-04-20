@@ -16,6 +16,9 @@ jobs:
         with:
           deno-version: 'v2.1.4'  
 
+      - name: Check Deno version
+        run: deno -v
+
     # Step 3: Use GitHub Secrets (stored in the repository settings)
       - name: Set environment variables from GitHub Secrets
         run: |
