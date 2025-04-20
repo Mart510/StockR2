@@ -1,0 +1,42 @@
+name: Deploy
+# Trigger workflow manually using the GitHub UI
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted  
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Deno
+        uses: denolib/setup-deno@v1
+        with:
+          deno-version: 'v2.1.4'  
+
+    # Step 3: Use GitHub Secrets (stored in the repository settings)
+      - name: Set environment variables from GitHub Secrets
+        run: |
+          # Server
+          echo "SERVER_AUTH_USERNAME=${{ secrets.SERVER_AUTH_USERNAME }}" >> .env
+          echo "SERVER_AUTH_PASSWORD=${{ secrets.SERVER_AUTH_PASSWORD }}" >> .env
+
+          # Client
+          echo "CLIENT_AUTH_USERNAME=${{ secrets.CLIENT_AUTH_USERNAME }}" >> .env
+          echo "CLIENT_AUTH_PASSWORD=${{ secrets.CLIENT_AUTH_PASSWORD }}" >> .env
+
+          # Binance
+          echo "BINANCE_BASE_URL=${{ secrets.BINANCE_BASE_URL }}" >> .env
+          echo "BINANCE_API_KEY=${{ secrets.BINANCE_API_KEY }}" >> .env
+
+          # Supabase
+          echo "SUPABASE_CONNECTION_URL=${{ secrets.SUPABASE_CONNECTION_URL }}" >> .env
+          echo "SUPABASE_REST_URL=${{ secrets.SUPABASE_REST_URL }}" >> .env
+          echo "SUPABASE_API_KEY=${{ secrets.SUPABASE_API_KEY }}" >> .env
+
+      # Step 4: Run your Deno application
+      - name: Run Deno main.ts
+        run: |
+          deno run --allow-env --allow-read --allow-net main.ts
