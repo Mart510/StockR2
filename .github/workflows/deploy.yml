@@ -43,11 +43,6 @@ jobs:
       - name: Check contents of .env
         run: cat .env
 
-      # Step 4: Kill any process using port 8000
-      - name: Kill processes on port 8000
-        run: |
-          lsof -ti:8000 | xargs kill -9 || true  # Ensure port 8000 is free
-
       # Step 5: Restart application with PM2
       - name: Restart application with PM2
         run: pm2 restart ecosystem.config.js  # Adjust the environment as needed
