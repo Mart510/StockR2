@@ -42,8 +42,6 @@ interface binanceServerError {
     isNetworkError?: boolean;
 }
 
-type RESTMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-
 class BinanceApi {
     binanceBaseURL: string;
 
@@ -51,10 +49,10 @@ class BinanceApi {
         this.binanceBaseURL = baseURl;
     }
 
-    private async request<T>(url: string, method: RESTMethod, methodName: string): Promise<T | binanceServerError> {
+    private async request<T>(url: string, methodName: string): Promise<T | binanceServerError> {
         try {
             const response = await fetch(url, {
-                method,
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -105,7 +103,7 @@ class BinanceApi {
     };
     
     getPing = async (): Promise<Record<string, never> | binanceServerError> => {
-        const result = await this.request<Record<string, never>>(`${this.binanceBaseURL}/ping`, "GET", "getPing");
+        const result = await this.request<Record<string, never>>(`${this.binanceBaseURL}/ping`, "getPing");
         
         if ("getPing" in result) {
             console.log("Ping response:", result);
@@ -115,7 +113,7 @@ class BinanceApi {
     };
 
     getServerTime = async (): Promise<serverTime | binanceServerError> => {
-        const result = await this.request<serverTime>(`${this.binanceBaseURL}/time`, "GET", "getServerTime");
+        const result = await this.request<serverTime>(`${this.binanceBaseURL}/time`, "getServerTime");
     
         if ("serverTime" in result) {
             console.log("Server time is:", result.serverTime);
@@ -125,10 +123,10 @@ class BinanceApi {
     };
     
 
-    getTickerAvgprice = async (ticker: string, pairTicker = 'USDC'): Promise<tickerAvgprice | binanceServerError> => {
-        const symbol = `${ticker}${pairTicker}`.toUpperCase();
+    getTickerAvgprice = async (ticker: string): Promise<tickerAvgprice | binanceServerError> => {
+        const symbol = ticker.toUpperCase();
 
-        const result = await this.request<tickerAvgprice>(`${this.binanceBaseURL}/avgPrice?symbol=${symbol}`, "GET", "getTickerAvgprice");
+        const result = await this.request<tickerAvgprice>(`${this.binanceBaseURL}/avgPrice?symbol=${symbol}`, "getTickerAvgprice");
 
         if ("mins" in result) {
             console.log("Ticker avg price is:", result.price);
@@ -141,7 +139,7 @@ class BinanceApi {
         const symbols = tickersArray.map(ticker => `"${ticker}"`).join(",");
         const url = `${this.binanceBaseURL}/ticker/24hr?symbols=[${symbols}]`;
 
-        const result = await this.request<ticker24HrSummary[]>(url, "GET", "getTicker24Hr");
+        const result = await this.request<ticker24HrSummary[]>(url, "getTicker24Hr");
 
         if (Array.isArray(result)) {
             console.log("Ticker 24hr summary is:", result);
@@ -152,4 +150,4 @@ class BinanceApi {
 }
 
 export { BinanceApi };
-export type { numberAsString, tickerAvgprice, ticker24HrSummary, serverTime };
+export type { numberAsString, tickerAvgprice, ticker24HrSummary, serverTime, binanceServerError };

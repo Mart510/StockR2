@@ -30,11 +30,10 @@ const createBinanceRoutes = (binanceAPI: BinanceApi) => {
 
     binance.get("/ticker-average-price", async (c) => {
         const tickerParam = c.req.query("ticker");
-        const pairTicker = c.req.query("pairTicker") || "USDC";
         if (!tickerParam) {
             return c.json({ error: "Ticker is required" }, 400);
         }
-        const response = await binanceAPI.getTickerAvgprice(tickerParam, pairTicker);
+        const response = await binanceAPI.getTickerAvgprice(tickerParam);
         console.log(response);
         return c.json(response);
     });

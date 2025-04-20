@@ -1,7 +1,6 @@
 import { Hono } from "hono";
 import type { SupabaseApi } from "../apiClients/supabaseAPI.ts";
 
-
 const createSupabaseRoutes = (supabaseAPI: SupabaseApi) => {
 
     const supabase = new Hono();
@@ -20,6 +19,12 @@ const createSupabaseRoutes = (supabaseAPI: SupabaseApi) => {
         const response = await supabaseAPI.getTickerUUID(tickerParam);
         console.log(response);
         return c.json(response);
+    });
+
+    supabase.get("/tickers-and-ids", async (c) => {
+        const tickersAndIds = await supabaseAPI.getAllTickersAndIds();
+        console.log(tickersAndIds);
+        return c.json(tickersAndIds);
     });
 
       // test insert for daily summary

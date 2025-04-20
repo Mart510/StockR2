@@ -1,7 +1,7 @@
 import { BinanceApi } from "./apiClients/binanceApi.ts";
 import { SupabaseApi } from "./apiClients/supabaseAPI.ts";
 
-export function setUpClients(): { binanceAPI: BinanceApi; supabaseApi: SupabaseApi } {
+const setUpClients = (): { binanceAPI: BinanceApi; supabaseApi: SupabaseApi } => {
     const binanceBaseURL = Deno.env.get("BINANCE_BASE_URL");
     const supabaseURL = Deno.env.get("SUPABASE_REST_URL");
     const supabaseKey = Deno.env.get("SUPABASE_API_KEY");
@@ -15,3 +15,5 @@ export function setUpClients(): { binanceAPI: BinanceApi; supabaseApi: SupabaseA
 
     return { binanceAPI, supabaseApi };
 }
+
+export { setUpClients };
