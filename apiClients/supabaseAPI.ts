@@ -1,13 +1,16 @@
-import supabase from "./clientConfig.ts";
+// import supabase from "./clientConfig.ts";
 import {SupabaseClient} from "@supabase/supabase-js";
 import {createClient} from '@supabase/supabase-js';
 
-// Getters
-// get all info from ticker table
 class SupabaseApi {
     client: SupabaseClient
     constructor(supabaseRestURL: string, supabaseKey: string) {
-        this.client = createClient(supabaseRestURL, supabaseKey);
+        this.client = createClient(supabaseRestURL, supabaseKey, {
+            auth: {
+                persistSession: Deno.env.get("DENO_ENV") !== "test",
+                autoRefreshToken: Deno.env.get("DENO_ENV") !== "test",
+            },
+        });
     }
 
     getAllTickers = async () => {
@@ -90,7 +93,7 @@ class SupabaseApi {
     // get all info from summary table
     getAlldailySummaries = async () => {
         try {
-            const { data, error } = await supabase
+            const { data, error } = await this.client
                 .from('dailysummaries')
                 .select('*');
 

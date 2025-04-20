@@ -1,5 +1,5 @@
-import { BinanceApi } from "./binanceAPI/binanceApi.ts";
-import { SupabaseApi } from "./supabaseAPI/databaseMethods.ts";
+import { BinanceApi } from "./apiClients/binanceApi.ts";
+import { SupabaseApi } from "./apiClients/supabaseAPI.ts";
 
 export function setUpClients(): { binanceAPI: BinanceApi; supabaseApi: SupabaseApi } {
     const binanceBaseURL = Deno.env.get("BINANCE_BASE_URL");
