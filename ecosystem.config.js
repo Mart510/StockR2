@@ -1,7 +1,6 @@
 module.exports = {
     apps: [{
         name: "stockr-deno",
-        cwd: "./StockR2",
         script: "deno",
         args: "task start",
         interpreter: "bash",
