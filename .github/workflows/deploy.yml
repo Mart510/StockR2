@@ -23,21 +23,21 @@ jobs:
       - name: Set environment variables from GitHub env
         run: |
           # Server
-          echo "SERVER_AUTH_USERNAME=${{ env.SERVER_AUTH_USERNAME }}" | tee -a .env
-          echo "SERVER_AUTH_PASSWORD=${{ env.SERVER_AUTH_PASSWORD }}" | tee -a .env
+          echo "SERVER_AUTH_USERNAME=${{ vars .SERVER_AUTH_USERNAME }}"
+          echo "SERVER_AUTH_PASSWORD=${{ vars .SERVER_AUTH_PASSWORD }}"
 
           # Client
-          echo "CLIENT_AUTH_USERNAME=${{ env.CLIENT_AUTH_USERNAME }}" | tee -a .env
-          echo "CLIENT_AUTH_PASSWORD=${{ env.CLIENT_AUTH_PASSWORD }}" | tee -a .env
+          echo "CLIENT_AUTH_USERNAME=${{ vars .CLIENT_AUTH_USERNAME }}"
+          echo "CLIENT_AUTH_PASSWORD=${{ vars .CLIENT_AUTH_PASSWORD }}"
 
           # Binance
-          echo "BINANCE_BASE_URL=${{ env.BINANCE_BASE_URL }}" | tee -a .env
-          echo "BINANCE_API_KEY=${{ env.BINANCE_API_KEY }}" | tee -a .env
+          echo "BINANCE_BASE_URL=${{ vars .BINANCE_BASE_URL }}"
+          echo "BINANCE_API_KEY=${{ vars .BINANCE_API_KEY }}"
 
           # Supabase
-          echo "SUPABASE_CONNECTION_URL=${{ env.SUPABASE_CONNECTION_URL }}" | tee -a .env
-          echo "SUPABASE_REST_URL=${{ env.SUPABASE_REST_URL }}" | tee -a .env
-          echo "SUPABASE_API_KEY=${{ env.SUPABASE_API_KEY }}" | tee -a .env
+          echo "SUPABASE_CONNECTION_URL=${{ vars .SUPABASE_CONNECTION_URL }}"
+          echo "SUPABASE_REST_URL=${{ vars .SUPABASE_REST_URL }}"
+          echo "SUPABASE_API_KEY=${{ vars .SUPABASE_API_KEY }}"
 
       # Debugging: Check contents of .env file
       - name: Check contents of .env
