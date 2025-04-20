@@ -7,34 +7,6 @@ import createBinanceRoutes from "./routes/binance.ts";
 import createSupabaseRoutes from "./routes/supabase.ts";
 import createUpdaterRoutes from "./routes/updater.ts";
 
-// TODO refactor this file to only do the following:
-// 1. load environment variables - done
-// 2. initialize api clients - done
-// 3. register the routes 
-// 4. start the server
-
-// src/
-// │
-// ├── main.ts
-// ├── config.ts               <- Loads env vars
-// ├── clients.ts              <- setUpClients function
-// │
-// ├── routes/
-// │   ├── binance.ts
-// │   ├── supabase.ts
-// │   └── index.ts            <- Optionally aggregates all routes
-// │
-// ├── binanceAPI/
-// │   └── binanceApi.ts
-// │
-// ├── supabaseAPI/
-// │   └── databaseMethods.ts
-// │
-// └── utils/
-//     └── RateLimiter.ts
-
-
-
 // load env
 config({ export: true });
 
@@ -57,6 +29,3 @@ app.route("/updater", createUpdaterRoutes(binanceAPI, supabaseApi).use('*', auth
 // start server
 Deno.serve(app.fetch);
 
-export function add(a: number, b: number): number {
-  return a + b;
-}
