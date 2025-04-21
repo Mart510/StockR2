@@ -21,6 +21,12 @@ const isBinanceServerError = (response: any): response is binanceServerError => 
 const createUpdaterRoutes = (binanceAPI: BinanceApi, supabaseAPI: SupabaseApi) => {
     const updater = new Hono();
 
+    // test endpoint
+    updater.get("/heartbeat", (c) => {
+        return c.text("Updater route is working");
+    });
+
+
     // update all tickers
     updater.get("/tickers-spot-price", async (c) => {
 
@@ -98,9 +104,6 @@ const createUpdaterRoutes = (binanceAPI: BinanceApi, supabaseAPI: SupabaseApi) =
         return c.json(result);
 
     });
-    // update daily summary
-
-    // update all daily summaries
 
     return updater;
 
