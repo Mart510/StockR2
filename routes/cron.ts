@@ -9,6 +9,7 @@ interface tickerPrice {
     price: numberAsString;
 };
 
+// deno-lint-ignore no-explicit-any
 const isBinanceServerError = (response: any): response is binanceServerError => {
     return (
         typeof response === "object" &&

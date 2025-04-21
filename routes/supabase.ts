@@ -27,11 +27,6 @@ const createSupabaseRoutes = (supabaseAPI: SupabaseApi) => {
         return c.json(tickersAndIds);
     });
 
-      // test insert for daily summary
-    supabase.get("/insert-daily-summary", async (c) => {
-        // const getAllTickers = await getAllTickers();
-    });
-
     return supabase;
 }
 

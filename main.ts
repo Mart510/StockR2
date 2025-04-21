@@ -5,7 +5,7 @@ import { setUpClients } from "./clients.ts";
 import { setUpAuthMiddlewares } from "./apiClients/authMiddleware.ts";
 import createBinanceRoutes from "./routes/binance.ts";
 import createSupabaseRoutes from "./routes/supabase.ts";
-import createUpdaterRoutes from "./routes/updater.ts";
+import createCronRoutes from "./routes/cron.ts";
 
 // load env
 config({ export: true });
@@ -26,9 +26,9 @@ app.get("/", (c) => {
 // app.route("/data", createSupabaseRoutes(supabaseApi).use('*', authServer));
 // app.route("/updater", createUpdaterRoutes(binanceAPI, supabaseApi).use('*', authServer));
 
+app.route("/cron", createCronRoutes(binanceAPI, supabaseApi));
 app.route("/binance", createBinanceRoutes(binanceAPI));
 app.route("/data", createSupabaseRoutes(supabaseApi));
-app.route("/cron", createUpdaterRoutes(binanceAPI, supabaseApi));
 
 // start server
 Deno.serve(app.fetch);
