@@ -28,7 +28,7 @@ app.get("/", (c) => {
 
 app.route("/binance", createBinanceRoutes(binanceAPI));
 app.route("/data", createSupabaseRoutes(supabaseApi));
-app.route("/updater", createUpdaterRoutes(binanceAPI, supabaseApi));
+app.route("/cron", createUpdaterRoutes(binanceAPI, supabaseApi));
 
 // start server
 Deno.serve(app.fetch);
