@@ -22,7 +22,7 @@ const createUpdaterRoutes = (binanceAPI: BinanceApi, supabaseAPI: SupabaseApi) =
     const updater = new Hono();
 
     // update all tickers
-    updater.post("/tickers-spot-price", async (c) => {
+    updater.get("/tickers-spot-price", async (c) => {
 
         const tickersAndIds = await supabaseAPI.getAllTickersAndIds();
         
@@ -62,7 +62,7 @@ const createUpdaterRoutes = (binanceAPI: BinanceApi, supabaseAPI: SupabaseApi) =
 
 
     // update ticker in database for each ticker
-    updater.post("/tickers-24hr-summary", async (c) => {
+    updater.get("/tickers-24hr-summary", async (c) => {
         const tickersAndIds = await supabaseAPI.getAllTickersAndIds();
         
         const tickers = tickersAndIds.map(tickerObj => tickerObj.ticker);
