@@ -18,17 +18,17 @@ const isBinanceServerError = (response: any): response is binanceServerError => 
     );
 }
 
-const createUpdaterRoutes = (binanceAPI: BinanceApi, supabaseAPI: SupabaseApi) => {
-    const updater = new Hono();
+const createCronRoutes = (binanceAPI: BinanceApi, supabaseAPI: SupabaseApi) => {
+    const cron = new Hono();
 
     // test endpoint
-    updater.get("/heartbeat", (c) => {
+    cron.get("/heartbeat", (c) => {
         return c.text("Updater route is working");
     });
 
 
     // update all tickers
-    updater.get("/tickers-spot-price", async (c) => {
+    cron.get("/tickers-spot-price", async (c) => {
 
         const tickersAndIds = await supabaseAPI.getAllTickersAndIds();
         
@@ -73,7 +73,7 @@ const createUpdaterRoutes = (binanceAPI: BinanceApi, supabaseAPI: SupabaseApi) =
 
 
     // update ticker in database for each ticker
-    updater.get("/tickers-24hr-summary", async (c) => {
+    cron.get("/tickers-24hr-summary", async (c) => {
         const tickersAndIds = await supabaseAPI.getAllTickersAndIds();
         
         const tickers = tickersAndIds.map(tickerObj => tickerObj.ticker);
@@ -105,8 +105,8 @@ const createUpdaterRoutes = (binanceAPI: BinanceApi, supabaseAPI: SupabaseApi) =
 
     });
 
-    return updater;
+    return cron;
 
 }
 
-export default createUpdaterRoutes;
+export default createCronRoutes;
