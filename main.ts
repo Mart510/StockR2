@@ -30,6 +30,12 @@ app.route("/cron", createCronRoutes(binanceAPI, supabaseApi));
 app.route("/binance", createBinanceRoutes(binanceAPI));
 app.route("/data", createSupabaseRoutes(supabaseApi));
 
+// debug route
+app.notFound((c) => {
+  return c.text(`Route not found: ${c.req.method} ${c.req.url}`, 404);
+});
+
+
 // start server
 Deno.serve(app.fetch);
 
