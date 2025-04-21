@@ -16,15 +16,19 @@ const {binanceAPI, supabaseApi} = setUpClients();
 const app = new Hono();
 
 // Auth middlewares
-const {authServer, authClient} = setUpAuthMiddlewares();
+// const {authServer, authClient} = setUpAuthMiddlewares();
 
 
 app.get("/", (c) => {
   return c.text("Hello World!");
 });
-app.route("/binance", createBinanceRoutes(binanceAPI).use('*', authServer));
-app.route("/data", createSupabaseRoutes(supabaseApi).use('*', authServer));
-app.route("/updater", createUpdaterRoutes(binanceAPI, supabaseApi).use('*', authServer));
+// app.route("/binance", createBinanceRoutes(binanceAPI).use('*', authServer));
+// app.route("/data", createSupabaseRoutes(supabaseApi).use('*', authServer));
+// app.route("/updater", createUpdaterRoutes(binanceAPI, supabaseApi).use('*', authServer));
+
+app.route("/binance", createBinanceRoutes(binanceAPI));
+app.route("/data", createSupabaseRoutes(supabaseApi));
+app.route("/updater", createUpdaterRoutes(binanceAPI, supabaseApi));
 
 // start server
 Deno.serve(app.fetch);

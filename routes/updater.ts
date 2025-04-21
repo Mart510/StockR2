@@ -41,6 +41,11 @@ const createUpdaterRoutes = (binanceAPI: BinanceApi, supabaseAPI: SupabaseApi) =
             
             const price = currentTickerPrice.price;
             
+            if (!price) {
+                console.error(`Skipping insertion for ${ticker}, no price fetched.`);
+                continue;
+            }            
+
             tickerPrices.push({ ticker, tickerID: id, price });       
             
         }
